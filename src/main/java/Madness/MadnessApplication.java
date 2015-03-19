@@ -1,23 +1,30 @@
 package Madness;
 
-import Madness.Repository.TeamRepository;
-import Madness.model.Team;
+import Madness.Repository.GameInfoRepository;
+import Madness.Repository.GameStatRepository;
+import Madness.Repository.TeamStatRepository;
+import Madness.model.GameInfo;
+import Madness.model.GameSchedule;
+import Madness.model.GameStat;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 @SpringBootApplication
 public class MadnessApplication implements CommandLineRunner{
 
     @Autowired
-    TeamRepository teamRepository;
+    TeamStatRepository teamStatRepository;
+
+    @Autowired
+    GameStatRepository gameStatRepository;
+
+    @Autowired
+    GameInfoRepository gameInfoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(MadnessApplication.class, args);
@@ -28,18 +35,33 @@ public class MadnessApplication implements CommandLineRunner{
         RestTemplate restTemplate = new RestTemplate();
 
         String response = restTemplate.getForObject(
-                "http://marchmadness.kimonolabs.com/api/teams?apikey=tb7AECxFi06nzpu7A7vpzqzRuA9uJfJP",
+                "http://api.sportsdatallc.org/ncaamb-t3/games/2015/03/19/schedule.json?api_key=qpesczre2ywcr9fr3cazc4sb",
                 String.class);
 
-        System.out.println(response);
-
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<Team>>() {}.getType();
-        List<Team> result = gson.fromJson(response, listType);
+        Thread.sleep(1000);
+        saveGames(gson.fromJson(response, GameSchedule.class));
+    }
 
-        for(Team team : result) {
-            System.out.println(team.getTeamName());
-            teamRepository.save(team);
+    private void saveGames(GameSchedule result) throws InterruptedException {
+        RestTemplate restTemplate = new RestTemplate();
+        Gson gson = new Gson();
+        for(GameInfo gameInfo : result.getGames()) {
+            try {
+                gameInfoRepository.save(gameInfo);
+                String response = restTemplate.getForObject("http://api.sportsdatallc.org/ncaamb-t3/games/" + gameInfo.getId() + "/boxscore.json?api_key=qpesczre2ywcr9fr3cazc4sb", String.class);
+                GameStat gameStat = gson.fromJson(response, GameStat.class);
+                if(gameStat.getHome() != null) {
+                    teamStatRepository.save(gameStat.getHome());
+                }
+                if(gameStat.getAway() != null) {
+                    teamStatRepository.save(gameStat.getAway());
+                }
+                gameStatRepository.save(gameStat);
+                Thread.sleep(1000);
+            } catch (HttpClientErrorException e) {
+                System.out.println(gson.toJson(gameInfo));
+            }
         }
     }
 }
