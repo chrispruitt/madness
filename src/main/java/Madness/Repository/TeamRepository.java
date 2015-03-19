@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "team", path = "team")
-public interface TeamRepository extends CrudRepository<Team, Long> {
+public interface TeamRepository extends CrudRepository<Team, String> {
 
     List<Team> findByTeamName(@Param("teamName") String teamName);
     List<Team> findByCollegeName(@Param("collegeName") String collegeName);
