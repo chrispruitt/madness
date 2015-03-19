@@ -14,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Calendar;
+
 @SpringBootApplication
 public class MadnessApplication implements CommandLineRunner{
 
@@ -34,8 +36,9 @@ public class MadnessApplication implements CommandLineRunner{
     public void run(String... strings) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
 
+        Calendar calendar = Calendar.getInstance();
         String response = restTemplate.getForObject(
-                "http://api.sportsdatallc.org/ncaamb-t3/games/2015/03/19/schedule.json?api_key=qpesczre2ywcr9fr3cazc4sb",
+                "http://api.sportsdatallc.org/ncaamb-t3/games/" +  calendar.get(Calendar.YEAR) + "/" + (calendar.get(Calendar.MONTH)+1) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/schedule.json?api_key=qpesczre2ywcr9fr3cazc4sb",
                 String.class);
 
         Gson gson = new Gson();
