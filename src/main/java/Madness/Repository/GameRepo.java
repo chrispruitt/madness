@@ -1,6 +1,6 @@
-package Repository;
+package Madness.Repository;
 
-import model.Game;
+import Madness.model.Game;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

@@ -1,11 +1,10 @@
 package Madness;
 
-import Repository.TeamRepo;
+import Madness.model.Team;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import model.Team;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import Madness.Repository.TeamRepository;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class MadnessApplication implements CommandLineRunner{
 
     @Autowired
-    TeamRepo teamRepo;
+    TeamRepository teamRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(MadnessApplication.class, args);
@@ -41,7 +41,7 @@ public class MadnessApplication implements CommandLineRunner{
 
         for(Team team : result) {
             System.out.println(team.getTeamName());
-            teamRepo.save(team);
+            teamRepository.save(team);
         }
     }
 }

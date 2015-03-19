@@ -1,4 +1,4 @@
-package model;
+package Madness.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ public class Game {
 
     private String date;
     private String awayTeamName;
-    private String homeTeamname;
+    private String homeTeamName;
     private boolean tournamentGame;
     private Team home;
     private Team away;
@@ -46,12 +46,12 @@ public class Game {
         this.awayTeamName = awayTeamName;
     }
 
-    public String getHomeTeamname() {
-        return homeTeamname;
+    public String getHomeTeamName() {
+        return homeTeamName;
     }
 
-    public void setHomeTeamname(String homeTeamname) {
-        this.homeTeamname = homeTeamname;
+    public void setHomeTeamName(String homeTeamName) {
+        this.homeTeamName = homeTeamName;
     }
 
     public boolean isTournamentGame() {
