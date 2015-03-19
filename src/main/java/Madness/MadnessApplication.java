@@ -1,18 +1,15 @@
 package Madness;
 
+import Madness.Repository.TeamRepository;
 import Madness.model.Team;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import Madness.Repository.TeamRepository;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -29,15 +26,16 @@ public class MadnessApplication implements CommandLineRunner{
     @Override
     public void run(String... strings) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(
+
+        String response = restTemplate.getForObject(
                 "http://marchmadness.kimonolabs.com/api/teams?apikey=tb7AECxFi06nzpu7A7vpzqzRuA9uJfJP",
                 String.class);
 
+        System.out.println(response);
+
         Gson gson = new Gson();
-        JsonElement element = gson.toJsonTree(response);
-        JsonObject object = element.getAsJsonObject();
         Type listType = new TypeToken<List<Team>>() {}.getType();
-        List<Team> result = gson.fromJson(object.get("team"), listType);
+        List<Team> result = gson.fromJson(response, listType);
 
         for(Team team : result) {
             System.out.println(team.getTeamName());

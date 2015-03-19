@@ -1,8 +1,6 @@
 package Madness.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -10,8 +8,7 @@ import java.io.Serializable;
 public class Team implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
 
     private String teamName;
     private String collegeName;
@@ -20,11 +17,11 @@ public class Team implements Serializable {
     private int losses;
     private String conferenceId;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
