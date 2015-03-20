@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource(collectionResourceRel = "game", path = "game")
+@RepositoryRestResource(collectionResourceRel = "boxscore", path = "boxscore")
 public interface GameStatRepository extends CrudRepository<GameBoxScore, String> {
 
     List<GameBoxScore> findByStatus(@Param("status") String status);

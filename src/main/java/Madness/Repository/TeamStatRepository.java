@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource(collectionResourceRel = "team", path = "team")
+@RepositoryRestResource(collectionResourceRel = "teamboxscore", path = "teamboxscore")
 public interface TeamStatRepository extends CrudRepository<TeamBoxScore, String> {
 
     List<TeamBoxScore> findByName(@Param("name") String name);
