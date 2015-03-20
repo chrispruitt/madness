@@ -1,5 +1,7 @@
 package Madness.model;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,9 +17,11 @@ public class GameBoxScore implements Serializable {
     private int lead_changes;
     private String clock;
     private String half;
-    @OneToOne(optional = true)
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
+    @RestResource(exported = false)
     private TeamBoxScore home;
-    @OneToOne(optional = true)
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
+    @RestResource(exported = false)
     private TeamBoxScore away;
 
     public String getId() {
