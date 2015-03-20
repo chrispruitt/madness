@@ -38,7 +38,7 @@ public class MadnessApplication implements CommandLineRunner{
 
         Calendar calendar = Calendar.getInstance();
         String response = restTemplate.getForObject(
-                "http://api.sportsdatallc.org/ncaamb-t3/games/" +  calendar.get(Calendar.YEAR) + "/" + (calendar.get(Calendar.MONTH)+1) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/schedule.json?api_key=qpesczre2ywcr9fr3cazc4sb",
+                "http://api.sportsdatallc.org/ncaamb-t3/games/" +  calendar.get(Calendar.YEAR) + "/" + (calendar.get(Calendar.MONTH)+1) + "/" + (calendar.get(Calendar.DAY_OF_MONTH)-1) + "/schedule.json?api_key=hy7k6qxmbu4ntympys79kc6v",
                 String.class);
 
         Gson gson = new Gson();
@@ -52,7 +52,7 @@ public class MadnessApplication implements CommandLineRunner{
         for(GameInfo gameInfo : result.getGames()) {
             try {
                 gameInfoRepository.save(gameInfo);
-                String response = restTemplate.getForObject("http://api.sportsdatallc.org/ncaamb-t3/games/" + gameInfo.getId() + "/boxscore.json?api_key=qpesczre2ywcr9fr3cazc4sb", String.class);
+                String response = restTemplate.getForObject("http://api.sportsdatallc.org/ncaamb-t3/games/" + gameInfo.getId() + "/boxscore.json?api_key=hy7k6qxmbu4ntympys79kc6v", String.class);
                 GameBoxScore gameBoxScore = gson.fromJson(response, GameBoxScore.class);
                 if(gameBoxScore.getHome() != null) {
                     teamStatRepository.save(gameBoxScore.getHome());
