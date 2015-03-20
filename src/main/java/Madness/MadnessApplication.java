@@ -5,7 +5,7 @@ import Madness.Repository.GameStatRepository;
 import Madness.Repository.TeamStatRepository;
 import Madness.model.GameInfo;
 import Madness.model.GameSchedule;
-import Madness.model.GameStat;
+import Madness.model.GameBoxScore;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -53,14 +53,14 @@ public class MadnessApplication implements CommandLineRunner{
             try {
                 gameInfoRepository.save(gameInfo);
                 String response = restTemplate.getForObject("http://api.sportsdatallc.org/ncaamb-t3/games/" + gameInfo.getId() + "/boxscore.json?api_key=qpesczre2ywcr9fr3cazc4sb", String.class);
-                GameStat gameStat = gson.fromJson(response, GameStat.class);
-                if(gameStat.getHome() != null) {
-                    teamStatRepository.save(gameStat.getHome());
+                GameBoxScore gameBoxScore = gson.fromJson(response, GameBoxScore.class);
+                if(gameBoxScore.getHome() != null) {
+                    teamStatRepository.save(gameBoxScore.getHome());
                 }
-                if(gameStat.getAway() != null) {
-                    teamStatRepository.save(gameStat.getAway());
+                if(gameBoxScore.getAway() != null) {
+                    teamStatRepository.save(gameBoxScore.getAway());
                 }
-                gameStatRepository.save(gameStat);
+                gameStatRepository.save(gameBoxScore);
                 Thread.sleep(1000);
             } catch (HttpClientErrorException e) {
                 System.out.println(gson.toJson(gameInfo));

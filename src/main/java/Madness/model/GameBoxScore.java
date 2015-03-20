@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class GameStat implements Serializable {
+public class GameBoxScore implements Serializable {
 
     @Id
     private String id;
@@ -16,9 +16,9 @@ public class GameStat implements Serializable {
     private String clock;
     private String half;
     @OneToOne(optional = true)
-    private TeamStat home;
+    private TeamBoxScore home;
     @OneToOne(optional = true)
-    private TeamStat away;
+    private TeamBoxScore away;
 
     public String getId() {
         return id;
@@ -76,19 +76,19 @@ public class GameStat implements Serializable {
         this.half = half;
     }
 
-    public TeamStat getHome() {
+    public TeamBoxScore getHome() {
         return home;
     }
 
-    public void setHome(TeamStat home) {
+    public void setHome(TeamBoxScore home) {
         this.home = home;
     }
 
-    public TeamStat getAway() {
+    public TeamBoxScore getAway() {
         return away;
     }
 
-    public void setAway(TeamStat away) {
+    public void setAway(TeamBoxScore away) {
         this.away = away;
     }
 }

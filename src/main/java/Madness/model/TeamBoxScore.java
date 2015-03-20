@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class TeamStat implements Serializable {
+public class TeamBoxScore implements Serializable {
 
     @Id
     private String id;
